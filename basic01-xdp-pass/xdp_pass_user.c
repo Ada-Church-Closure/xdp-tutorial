@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: GPL-2.0 */
 static const char *__doc__ = "Simple XDP prog doing XDP_PASS\n";
 
+// 用户态文件进行attach 以及 load 的操作
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
