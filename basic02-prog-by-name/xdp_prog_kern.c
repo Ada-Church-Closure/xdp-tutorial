@@ -6,6 +6,8 @@
  * file. These will each get their own section in the ELF file, and via libbpf
  * they can be selected individually, and via their file-descriptor attached to
  * a given kernel BPF-hook.
+ * 这个程序包含多个XDP程序,但是只有一个源文件
+ * 在elf文件内部他们有自己的 .text section 可以通过libbpf被单独加载
  *
  * The libbpf bpf_object__find_program_by_title() refers to SEC names below.
  * The iproute2 utility also use section name.
@@ -27,6 +29,13 @@ int  xdp_drop_func(struct xdp_md *ctx)
 }
 
 /* Assignment#2: Add new XDP program section that use XDP_ABORTED */
+// XDP_ABORTED 和 XDP_DROP 是不同的。因为 XDP_ABORTED 会触发一个名为 xdp:xdp_exception 的 tracepoint（追踪点）。
+// 这里是一个利用tracepoint进行调试的方法 + perf 探针
+SEC("xdp")
+int	xdp_abort_func(struct xdp_md *ctx)
+{
+	return XDP_ABORTED;
+}
 
 char _license[] SEC("license") = "GPL";
 
